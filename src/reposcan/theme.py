@@ -648,7 +648,7 @@ class LoadingView:
         try:
             self._out.write(text)
             self._out.flush()
-        except OSError:
+        except (OSError, UnicodeEncodeError):
             pass
 
     def _write_lines(self, lines: list[str]) -> None:

@@ -52,8 +52,8 @@ Signatures are the heart of reposcan. We welcome community contributions! To pro
 
 1. **Fork and clone** the repo.
 2. **Create a feature branch**: `git checkout -b feature/<name>`.
-3. **Install in dev mode**: `pip install -e .`
-4. **Run tests**: `python -m pytest tests/ -v`
+3. **Install in dev mode**: `pip install -e ".[test]"`
+4. **Run tests**: `python -m pytest tests/ -vv`
 5. **Follow the code style**:
    - Python 3.10+ type hints.
    - Docstrings on all public functions.
@@ -66,12 +66,12 @@ Signatures are the heart of reposcan. We welcome community contributions! To pro
 - **Formatter**: We recommend `black` but don't enforce it.
 - **Linter**: `ruff` or `flake8` for basic checks.
 - **Type hints**: Use `from __future__ import annotations` and standard library types.
-- **Tests**: Add tests for new logic. Use `unittest` (stdlib).
+- **Tests**: Add tests for new logic. Use `pytest` (installed via `pip install -e ".[test]"`).
 
 ## Pull Request Checklist
 
 - [ ] Code runs without errors on Python 3.10+.
-- [ ] Existing tests pass: `python -m pytest tests/ -v`.
+- [ ] Existing tests pass: `python -m pytest tests/ -vv`.
 - [ ] New tests added for new functionality.
 - [ ] No external dependencies introduced.
 - [ ] Signature changes include public references.

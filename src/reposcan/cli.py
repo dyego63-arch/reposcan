@@ -33,6 +33,15 @@ from reposcan.theme import LoadingView
 
 def main(argv: list[str] | None = None) -> None:
     """Main CLI entry point."""
+    # Ensure UTF-8 output on Windows even when stdout is piped or
+    # redirected (default cp1252 cannot encode the banner's block chars).
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
     parser = argparse.ArgumentParser(
         prog="reposcan",
         description=(

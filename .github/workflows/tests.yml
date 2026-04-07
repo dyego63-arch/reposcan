@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -20,4 +20,4 @@ jobs:
       - name: Install package
         run: pip install -e ".[test]"
       - name: Run tests
-        run: python -m pytest tests/ -v
+        run: python -m pytest tests/ -vv

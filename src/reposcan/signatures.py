@@ -78,8 +78,9 @@ def find_signatures_dir(custom_dir: Optional[str] = None) -> Optional[Path]:
 
     Search order:
       1. --signatures-dir flag (explicit override)
-      2. Relative to this source file  (works for editable / dev install)
-      3. Current working directory      (fallback)
+      2. Bundled inside the package (works from pip-installed wheel)
+      3. Relative to this source file  (works for editable / dev install)
+      4. Current working directory      (fallback)
     """
     if custom_dir:
         p = Path(custom_dir)
@@ -91,9 +92,9 @@ def find_signatures_dir(custom_dir: Optional[str] = None) -> Optional[Path]:
     repo_root = pkg_dir.parent.parent          # src/reposcan → src → repo root
 
     candidates = [
-        repo_root / "signatures",
-        Path.cwd() / "signatures",
-        pkg_dir / "signatures",                # if bundled inside package
+        pkg_dir / "signatures",                # bundled inside package (wheel)
+        repo_root / "signatures",              # editable / dev install
+        Path.cwd() / "signatures",             # CWD fallback
     ]
 
     for candidate in candidates:

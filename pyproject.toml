@@ -40,10 +40,13 @@ reposcan = "reposcan.cli:main"
 Homepage = "https://github.com/KanavvGupta/reposcan"
 Repository = "https://github.com/KanavvGupta/reposcan"
 Issues = "https://github.com/KanavvGupta/reposcan/issues"
-Changelog = "https://github.com/KanavvGupta/reposcan/releases"
+Changelog = "https://github.com/KanavvGupta/reposcan/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+reposcan = ["signatures/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
