@@ -181,6 +181,30 @@ def _empty_result():
         files_skipped=0,
     )
 
+class TestCLIStartBannerAndWelcome(unittest.TestCase):
+    """Verify 'reposcan start' emits banner + welcome text to stdout."""
+
+    def test_start_emits_banner_and_welcome(self):
+        """start should print the REPOSCAN banner and welcome text."""
+        with patch("reposcan.cli.scan") as mock_scan:
+            mock_scan.return_value = _empty_result()
+            with patch("sys.stdout", new_callable=StringIO) as out:
+                try:
+                    main(["--no-color", "start"])
+                except SystemExit:
+                    pass
+            output = out.getvalue()
+            # Banner block art should be present
+            self.assertIn("██", output)
+            self.assertIn("ABOVE", output)
+            self.assertIn("MINDSET", output)
+            # Welcome text should be present
+            self.assertIn("Scanning", output)
+            self.assertIn("this folder", output)
+            self.assertIn("locally", output)
+            # Scan summary should also appear
+            self.assertIn("Scan Summary", output)
+
 
 if __name__ == "__main__":
     unittest.main()

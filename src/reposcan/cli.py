@@ -227,6 +227,7 @@ def _run_scan_with_loading(
 def _cmd_start(args: argparse.Namespace) -> None:
     """'reposcan start' — scan CWD interactively with the premium TUI."""
     print(theme.banner(__version__))
+    print(theme.render_welcome_text("."))
 
     options = ScanOptions(interactive=True)
 
@@ -268,6 +269,7 @@ def _cmd_scan(args: argparse.Namespace) -> None:
     # Show banner for TTY output (unless JSON mode)
     if not args.json_output:
         print(theme.banner(__version__))
+        print(theme.render_welcome_text(args.path))
 
     options = ScanOptions(
         no_ip_checks=args.no_ip_checks,

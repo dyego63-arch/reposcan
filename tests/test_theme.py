@@ -222,5 +222,53 @@ class TestQuickGuide(unittest.TestCase):
         self.assertIn("Downloads", guide)
 
 
+class TestWelcomeText(unittest.TestCase):
+    """Test render_welcome_text() and welcome_text_plain()."""
+
+    def setUp(self):
+        theme.set_no_color(True)
+
+    def tearDown(self):
+        theme.set_no_color(False)
+
+    def test_render_contains_scanning_message(self):
+        text = theme.render_welcome_text(".")
+        self.assertIn("Scanning", text)
+        self.assertIn("this folder", text)
+
+    def test_render_contains_local_first_message(self):
+        text = theme.render_welcome_text(".")
+        self.assertIn("locally", text)
+
+    def test_render_contains_interrupt_hint(self):
+        text = theme.render_welcome_text(".")
+        self.assertIn("Ctrl+C", text)
+
+    def test_render_uses_target_path(self):
+        text = theme.render_welcome_text("/some/custom/path")
+        self.assertIn("/some/custom/path", text)
+        self.assertNotIn("this folder", text)
+
+    def test_render_no_ansi_in_no_color_mode(self):
+        text = theme.render_welcome_text(".")
+        self.assertNotIn("\033[", text)
+
+    def test_plain_contains_scanning_message(self):
+        text = theme.welcome_text_plain(".")
+        self.assertIn("Scanning", text)
+        self.assertIn("this folder", text)
+
+    def test_plain_uses_target_path(self):
+        text = theme.welcome_text_plain("/my/path")
+        self.assertIn("/my/path", text)
+        self.assertNotIn("this folder", text)
+
+    def test_plain_no_ansi(self):
+        """Plain welcome text should never contain ANSI codes."""
+        theme.set_no_color(False)  # Even with colors "enabled"
+        text = theme.welcome_text_plain(".")
+        self.assertNotIn("\033[", text)
+
+
 if __name__ == "__main__":
     unittest.main()

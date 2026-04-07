@@ -364,6 +364,49 @@ def print_info(msg: str) -> None:
     print(f"  {teal('ℹ')} {msg}")
 
 
+# ── Welcome text (first-run UX) ──────────────────────────────────────────
+
+def render_welcome_text(target: str = ".") -> str:
+    """Render the pre-scan welcome paragraph shown after the banner.
+
+    Provides immediate context so a first-time user knows what is
+    happening before the animated loading view begins.
+
+    Args:
+        target: The scan target path (defaults to "." for CWD).
+
+    Returns a multi-line string suitable for printing to a terminal.
+    """
+    lines: list[str] = []
+
+    scanning_label = "this folder" if target == "." else target
+    line1 = f"Scanning {bold(scanning_label)} for dangerous files, secrets, and IP-leak risks."
+    line2 = "Everything runs locally — no data leaves your machine."
+    interrupt_hint = "Press Ctrl+C at any time to stop."
+
+    lines.append("")
+    lines.append(f"  {teal('›')} {line1}")
+    lines.append(f"  {teal('›')} {line2}")
+    lines.append(f"  {dim(interrupt_hint)}")
+    lines.append("")
+
+    return "\n".join(lines)
+
+
+def welcome_text_plain(target: str = ".") -> str:
+    """Return the welcome text as plain text (no ANSI codes).
+
+    Suitable for non-TTY output or ``--no-color`` mode.
+    """
+    scanning_label = "this folder" if target == "." else target
+    return (
+        "\n"
+        f"  Scanning {scanning_label} for dangerous files, secrets, and IP-leak risks.\n"
+        "  Everything runs locally — no data leaves your machine.\n"
+        "  Press Ctrl+C at any time to stop.\n"
+    )
+
+
 # ── Quick Scan Guide ─────────────────────────────────────────────────────
 
 def render_quick_guide() -> str:
