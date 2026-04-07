@@ -1,0 +1,62 @@
+﻿reposcan : Traceback 
+(most recent call last):
+At line:1 char:1
++ reposcan scan . 2>&1 | 
+Out-File -FilePath 
+scan_output.txt -Encoding 
+u ...
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (T  
+  raceback (most recent   
+  call last)::String)     
+[], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+  File "<frozen runpy>", 
+line 198, in 
+_run_module_as_main
+  File "<frozen runpy>", 
+line 88, in _run_code
+  File "C:\Users\Kanav Gup
+ta\AppData\Local\Programs\
+Python\Python313\Scripts\r
+eposcan.exe\__main__.py", 
+line 6, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "K:\My 
+Drive\Google 
+ANTI-GRAVITY\MAIN PROJ. 
+1\src\reposcan\cli.py", 
+line 93, in main
+    _cmd_scan(args)
+    ~~~~~~~~~^^^^^^
+  File "K:\My 
+Drive\Google 
+ANTI-GRAVITY\MAIN PROJ. 
+1\src\reposcan\cli.py", 
+line 130, in _cmd_scan
+    
+print(format_text(result))
+    
+~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kanav Gup
+ta\AppData\Local\Programs\
+Python\Python313\Lib\encod
+ings\cp1252.py", line 19, 
+in encode
+    return codecs.charmap_
+encode(input,self.errors,e
+ncoding_table)[0]
+           ~~~~~~~~~~~~~~~
+~~~~~~^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
+UnicodeEncodeError: 
+'charmap' codec can't 
+encode character 
+'\U0001f50d' in position 
+2: character maps to 
+<undefined>

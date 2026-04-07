@@ -1,0 +1,81 @@
+{
+    "$schema": "reposcan-ip-leak-risk-v1",
+    "version": "2026.04.05-r2",
+    "description": "IP and leak-risk indicators. These flag structural patterns only — no proprietary code is stored or matched.",
+    "indicators": [
+        {
+            "id": "IPR-001",
+            "name": "Claude Code source-map artifact",
+            "description": "Presence of large JavaScript source-map files in paths resembling the Claude Code npm package structure. The original accidental leak included a 59.8 MB .js.map file.",
+            "severity": "ADVISORY",
+            "confidence": "MEDIUM",
+            "indicators": {
+                "filename_patterns": ["*.js.map"],
+                "path_patterns": [
+                    "**/claude-code/**/*.js.map",
+                    "**/@anthropic-ai/**/*.js.map",
+                    "**/anthropic-ai*/**/*.js.map",
+                    "**/claude*/**/*.js.map"
+                ],
+                "min_size_bytes": 5000000,
+                "content_fingerprints": []
+            },
+            "legal_note": "This indicator flags structural patterns only. No proprietary code is stored or matched. Possessing leaked source code may violate the vendor's terms of service.",
+            "references": [
+                "https://www.bleepingcomputer.com/news/security/anthropic-claude-code-source-accidentally-exposed-via-npm/"
+            ],
+            "added": "2026-04-01",
+            "tags": ["claude-code", "source-map", "ip-risk", "anthropic"]
+        },
+        {
+            "id": "IPR-002",
+            "name": "Vendor-internal directory structure",
+            "description": "Directory and file naming patterns that suggest the repo may contain mirrored internal/proprietary source trees from well-known AI vendors.",
+            "severity": "ADVISORY",
+            "confidence": "LOW",
+            "indicators": {
+                "filename_patterns": [
+                    "INTERNAL_ONLY*",
+                    "CONFIDENTIAL*",
+                    "DO_NOT_DISTRIBUTE*",
+                    ".internal-build-config*",
+                    "PROPRIETARY*"
+                ],
+                "path_patterns": [
+                    "**/internal-only/**",
+                    "**/.anthropic-internal/**",
+                    "**/.openai-internal/**",
+                    "**/.google-internal/**"
+                ],
+                "min_size_bytes": null,
+                "content_fingerprints": []
+            },
+            "legal_note": "This is a low-confidence heuristic. Many legitimate projects use similar naming. Review manually before taking action.",
+            "references": [],
+            "added": "2026-04-05",
+            "tags": ["vendor-internal", "naming-heuristic", "ip-risk"]
+        },
+        {
+            "id": "IPR-003",
+            "name": "Oversized WebAssembly bundle in AI-tool path",
+            "description": "Very large WASM bundles in paths associated with AI tooling repos. These may contain compiled proprietary source code from leaked builds.",
+            "severity": "ADVISORY",
+            "confidence": "LOW",
+            "indicators": {
+                "filename_patterns": ["*.wasm"],
+                "path_patterns": [
+                    "**/claude*/**/*.wasm",
+                    "**/anthropic*/**/*.wasm",
+                    "**/copilot*/**/*.wasm",
+                    "**/openai*/**/*.wasm"
+                ],
+                "min_size_bytes": 10000000,
+                "content_fingerprints": []
+            },
+            "legal_note": "Large WASM bundles may contain compiled proprietary code. Review the source and licensing before redistributing.",
+            "references": [],
+            "added": "2026-04-05",
+            "tags": ["wasm", "ai-tooling", "ip-risk"]
+        }
+    ]
+}

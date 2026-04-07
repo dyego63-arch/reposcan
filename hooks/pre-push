@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# ── reposcan pre-push hook ────────────────────────────────────────────────
+# Installed by reposcan v0.1.0
+# https://github.com/KanavvGupta/reposcan
+#
+# Runs reposcan on your repo before each push.
+# To bypass:  git push --no-verify
+# ───────────────────────────────────────────────────────────────────────────
+
+echo "🔍 reposcan: scanning repository before push..."
+
+reposcan scan . --fail-on-ip-risk 2>&1
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -eq 1 ]; then
+    echo ""
+    echo "❌ reposcan: Push blocked — threats or IP-risk indicators detected."
+    echo "   Review the findings above before proceeding."
+    echo "   To bypass (NOT recommended): git push --no-verify"
+    exit 1
+elif [ $EXIT_CODE -eq 2 ]; then
+    echo ""
+    echo "⚠️  reposcan: Scanner error. Push allowed, but review manually."
+    exit 0
+fi
+
+echo "✅ reposcan: No threats detected. Proceeding with push."
+exit 0

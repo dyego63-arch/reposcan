@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reposcan"
+version = "1.0.0"
+description = "RepoScan finds fake Claude Code leak malware droppers and other suspicious artifacts in your repositories — by THE ABOVE MINDSET"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "THE ABOVE MINDSET", email = "kanavgoyalok@gmail.com"}
+]
+keywords = ["security", "malware", "scanner", "github", "cli", "local-first", "reposcan"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.scripts]
+reposcan = "reposcan.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/KanavvGupta/reposcan"
+Repository = "https://github.com/KanavvGupta/reposcan"
+Issues = "https://github.com/KanavvGupta/reposcan/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

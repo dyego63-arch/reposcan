@@ -1,0 +1,34 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-9.0.2, pluggy-1.6.0 -- C:\Users\Kanav Gupta\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: K:\My Drive\Google ANTI-GRAVITY\MAIN PROJ. 1
+configfile: pyproject.toml
+plugins: anyio-4.9.0
+collecting ... collected 24 items
+
+tests/test_matcher.py::TestMatchMalware::test_clean_file_no_match PASSED [  4%]
+tests/test_matcher.py::TestMatchMalware::test_exact_hash_match PASSED    [  8%]
+tests/test_matcher.py::TestMatchMalware::test_filename_case_insensitive PASSED [ 12%]
+tests/test_matcher.py::TestMatchMalware::test_filename_glob PASSED       [ 16%]
+tests/test_matcher.py::TestMatchMalware::test_hash_mismatch PASSED       [ 20%]
+tests/test_matcher.py::TestMatchMalware::test_multiple_signatures PASSED [ 25%]
+tests/test_matcher.py::TestMatchMalware::test_size_added_as_context PASSED [ 29%]
+tests/test_matcher.py::TestMatchIPLeakRisk::test_confidence_and_legal_note PASSED [ 33%]
+tests/test_matcher.py::TestMatchIPLeakRisk::test_filename_pattern PASSED [ 37%]
+tests/test_matcher.py::TestMatchIPLeakRisk::test_no_pattern_no_match PASSED [ 41%]
+tests/test_matcher.py::TestMatchIPLeakRisk::test_path_pattern PASSED     [ 45%]
+tests/test_matcher.py::TestMatchIPLeakRisk::test_size_threshold_blocks PASSED [ 50%]
+tests/test_matcher.py::TestMatchIPLeakRisk::test_size_threshold_passes PASSED [ 54%]
+tests/test_scanner.py::TestHashFile::test_empty_file PASSED              [ 58%]
+tests/test_scanner.py::TestHashFile::test_known_content PASSED           [ 62%]
+tests/test_scanner.py::TestHashFile::test_nonexistent_file PASSED        [ 66%]
+tests/test_scanner.py::TestScan::test_clean_file_no_findings PASSED      [ 70%]
+tests/test_scanner.py::TestScan::test_empty_directory PASSED             [ 75%]
+tests/test_scanner.py::TestScan::test_file_instead_of_dir_raises PASSED  [ 79%]
+tests/test_scanner.py::TestScan::test_hash_match_detected PASSED         [ 83%]
+tests/test_scanner.py::TestScan::test_ip_check_finds_indicator PASSED    [ 87%]
+tests/test_scanner.py::TestScan::test_malicious_filename_detected PASSED [ 91%]
+tests/test_scanner.py::TestScan::test_no_ip_checks_skips_advisory PASSED [ 95%]
+tests/test_scanner.py::TestScan::test_nonexistent_path_raises PASSED     [100%]
+
+============================= 24 passed in 0.37s ==============================
