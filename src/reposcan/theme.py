@@ -387,7 +387,8 @@ def render_quick_guide() -> str:
 
     # ── Scan a specific folder ──
     lines.append(f"  {teal('Scan a specific folder')}")
-    lines.append(f"  Use {bold('reposcan scan \"<path>\"')} to scan a folder you choose.")
+    _scan_cmd = 'reposcan scan "<path>"'
+    lines.append(f"  Use {bold(_scan_cmd)} to scan a folder you choose.")
     _example_path = r'reposcan scan "C:\Users\YourName\Downloads"'
     lines.append(f"  Example: {bold(_example_path)}")
     lines.append("")
