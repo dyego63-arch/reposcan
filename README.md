@@ -5,7 +5,13 @@
 <h1 align="center">REPOSCAN</h1>
 
 <p align="center">
-  <strong>One-command security scanner that finds fake Claude Code leak malware droppers<br/>and other suspicious artifacts in your repositories.</strong><br /><br />
+  <a href="https://github.com/KanavvGupta/reposcan/actions/workflows/tests.yml">
+    <img src="https://github.com/KanavvGupta/reposcan/actions/workflows/tests.yml/badge.svg" alt="CI" />
+  </a>
+</p>
+
+<p align="center">
+  <strong>One-command security scanner that finds suspicious artifacts in cloned repositories before you trust them.</strong><br /><br />
   Zero extra dependencies. Zero network calls. Just answers.<br /><br />
   <em>by <a href="https://github.com/KanavvGupta">THE ABOVE MINDSET</a></em>
 </p>
@@ -56,6 +62,8 @@ reposcan start
 ```
 
 That's it. RepoScan scans the current folder, shows you a branded banner, a plain-English summary, and — if anything suspicious is found — an interactive menu to help you clean up.
+
+*(Planned: short GIF demo of `reposcan start` in action.)*
 
 ## Quick Guide
 
@@ -158,6 +166,18 @@ This is an advanced option and may take longer on large drives.
 - 📦 **Zero dependencies** — Python standard library only
 - 🖥️ **God-tier banner** — massive REPOSCAN block letters with branded color bars
 - 🔓 **MIT licensed** — use it anywhere, fork it, improve it
+
+## Why RepoScan?
+
+Every week, threat actors flood GitHub with "leaked" AI source code repos that actually drop info-stealers and proxy malware. Developers clone them, open them in an IDE, and get infected — often before they even look at the code. RepoScan gives you a one-command sanity check you can run *before* trusting a cloned repo. It's also useful in CI pipelines to gate PRs that introduce suspicious executables or lure files. Because it's pure Python with zero dependencies and zero network calls, you can audit the entire tool in an afternoon.
+
+## Safety
+
+RepoScan is designed with a strict local-first philosophy:
+
+- **Zero extra dependencies** — Python standard library only. Nothing to supply-chain attack.
+- **Zero network calls** — No telemetry, no update checks, no cloud APIs. Your code never leaves your machine.
+- **Zero data exfiltration risk** — RepoScan reads files and computes SHA-256 hashes. It does not upload, transmit, or store any data externally.
 
 ## Interactive Menu
 

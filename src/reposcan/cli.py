@@ -8,8 +8,8 @@ Subcommands:
     signatures – Show loaded signature database details.
     init-hook  – Install a git pre-commit / pre-push hook.
 
-RepoScan finds fake Claude Code leak malware droppers and other
-suspicious artifacts in your repositories.
+RepoScan finds suspicious artifacts in cloned repositories
+before you trust them.
 """
 
 from __future__ import annotations
@@ -36,8 +36,8 @@ def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog="reposcan",
         description=(
-            "RepoScan finds fake Claude Code leak malware droppers "
-            "and other suspicious artifacts in your repositories."
+            "RepoScan finds suspicious artifacts in cloned "
+            "repositories before you trust them."
         ),
         epilog=(
             theme.quick_guide_plain()
@@ -345,7 +345,7 @@ def _cmd_signatures(args: argparse.Namespace) -> None:
         print(f"    {theme.dim('•')} [{ind.id}] {ind.name}  "
               f"({ind.severity}, {ind.confidence} confidence)")
     print()
-    print(f"  {theme.bold('Built-in heuristics:')}  3 rules (HEUR-001 … HEUR-003)")
+    print(f"  {theme.bold('Built-in heuristics:')}  4 rules (HEUR-001 … HEUR-004)")
     print()
     sys.exit(0)
 

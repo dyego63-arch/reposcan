@@ -28,7 +28,7 @@ This is part of a bigger pattern: AI-themed fake repos are becoming a top attack
 
 I built **reposcan** — a small, local-only, zero-dependency Python CLI that scans a directory against known malware signatures (SHA-256 hashes + filename patterns) and optionally flags IP/leak-risk indicators. It runs entirely on your machine — no files or hashes are uploaded anywhere. It also ships with a git pre-commit hook that blocks suspicious commits.
 
-This is v0.1 — the signature database is small and community contributions are essential. It won't catch zero-days or do deep static analysis. But it answers a question that no existing lightweight tool does: "Is this repo I just cloned obviously dangerous?"
+This is v1.0 — the signature database is small and community contributions are essential. It won't catch zero-days or do deep static analysis. But it answers a question that no existing lightweight tool does: "Is this repo I just cloned obviously dangerous?"
 
 GitHub: https://github.com/KanavvGupta/reposcan
 
@@ -106,7 +106,7 @@ Bypass for emergencies: git commit --no-verify
 
 **Tweet 7 — Honest limitations:**
 ```
-Let me be honest about v0.1:
+Let me be honest about v1.0:
 
 ❌ Won't catch zero-day malware
 ❌ No deep static analysis
