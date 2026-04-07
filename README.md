@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/the-above-mindset-logo.png" alt="THE ABOVE MINDSET" width="200" />
+  <img src="assets/logo-above-mindset.png" alt="THE ABOVE MINDSET" width="120" />
 </p>
 
 <h1 align="center">REPOSCAN</h1>
