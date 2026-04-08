@@ -153,11 +153,8 @@ def main(argv: list[str] | None = None) -> None:
         theme.set_no_color(True)
 
     if args.command is None:
-        # No subcommand → show banner + quick guide + help
-        print(theme.banner(__version__))
-        print(theme.render_quick_guide())
-        parser.print_help()
-        sys.exit(2)
+        _cmd_no_args(parser)
+        return
 
     try:
         if args.command == "start":
@@ -173,6 +170,132 @@ def main(argv: list[str] | None = None) -> None:
     except KeyboardInterrupt:
         print(f"\n  {theme.dim('Interrupted. Exiting.')}")
         sys.exit(130)
+
+
+# ── No-args handler: banner + guide + interactive menu ───────────────────
+
+def _cmd_no_args(parser: argparse.ArgumentParser) -> None:
+    """Called when user runs plain `reposcan` with no arguments.
+
+    If stdout is a TTY: show banner, quick guide, and an interactive
+    startup menu so first-time users can start a scan immediately.
+
+    If stdout is NOT a TTY (piped/redirected): fall back to the old
+    behaviour — banner + quick guide + help + exit 2.
+    """
+    print(theme.banner(__version__))
+    print(theme.render_quick_guide())
+
+    is_tty = False
+    try:
+        is_tty = sys.stdout.isatty()
+    except Exception:
+        pass
+
+    if not is_tty:
+        # Non-interactive context (e.g., piped to a file) — keep old behaviour
+        parser.print_help()
+        sys.exit(2)
+
+    # ── Interactive startup menu ──────────────────────────────────────────
+    menu_text = (
+        "\n"
+        "  ──────────────────────────────────────────────────────────────────\n"
+        "  What would you like to do?\n\n"
+        "    [1]  Safe scan of this folder  (recommended)\n"
+        "    [2]  Scan a different folder\n"
+        "    [3]  Just show the commands and exit\n\n"
+        "  Enter choice (1/2/3, default 1): "
+    )
+
+    choice = None
+    while choice not in ("1", "2", "3"):
+        try:
+            raw = input(menu_text).strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {theme.dim('Exiting.')}")
+            sys.exit(0)
+
+        # Default to 1 on blank Enter
+        if raw == "":
+            choice = "1"
+        elif raw in ("1", "2", "3"):
+            choice = raw
+        elif raw.lower() in ("q", "quit", "exit"):
+            choice = "3"
+        else:
+            print(f"\n  {theme.dim('Please enter 1, 2, or 3.')}\n")
+
+    if choice == "1":
+        # Scan current folder — same as `reposcan start`
+        print()
+        _run_interactive_quickstart(".")
+
+    elif choice == "2":
+        # Ask for a path then scan it
+        try:
+            path_input = input(
+                "\n  Enter the path you want to scan "
+                "(or leave blank to cancel):\n  › "
+            ).strip()
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n  {theme.dim('Cancelled. No scan was run.')}")
+            sys.exit(0)
+
+        if not path_input:
+            print(f"\n  {theme.dim('Cancelled. No scan was run.')}")
+            sys.exit(0)
+
+        print()
+        _run_interactive_quickstart(path_input)
+
+    else:
+        # choice == "3" — just show guide and exit
+        print(f"\n  {theme.dim('Run  reposcan start  to scan this folder anytime.')}\n")
+        sys.exit(0)
+
+
+def _run_interactive_quickstart(target_path: str) -> None:
+    """Run a full interactive scan for *target_path*.
+
+    Shared by the startup menu (options 1 & 2) so there is no
+    duplicated logic.  Prints welcome text, runs the loading view,
+    prints the summary + findings, and shows the action menu if needed.
+    Exits with the appropriate exit code.
+    """
+    print(theme.render_welcome_text(target_path))
+
+    options = ScanOptions(interactive=True)
+
+    try:
+        result = _run_scan_with_loading(target_path, options, show_loading=True)
+    except ScanError as exc:
+        print(f"\n  {theme.error('✗ Error:')} {exc}\n", file=sys.stderr)
+        sys.exit(2)
+
+    # One-line plain-English status
+    if result.critical_count > 0 or result.advisory_count > 0:
+        print(f"  {theme.warning('Warning:')} RepoScan found suspicious files "
+              f"in this folder. Read the summary below.\n")
+    else:
+        print(f"  {theme.success('Good news:')} RepoScan did not find anything "
+              f"obviously dangerous in this folder.\n")
+
+    # Summary + findings
+    print(format_summary(result))
+    findings_text = format_findings(result)
+    if findings_text:
+        print(findings_text)
+
+    # Interactive action menu if there are actionable findings
+    if has_actionable_findings(result.all_findings):
+        if sys.stdout.isatty():
+            run_action_menu(result.all_findings, result.target_path)
+        else:
+            print(f"  {theme.dim('Non-interactive terminal — skipping action menu.')}")
+            print(f"  {theme.dim('Run with a TTY for interactive cleanup options.')}\n")
+
+    sys.exit(compute_exit_code(result))
 
 
 # ── Helper: run scan with optional loading view ──────────────────────────
@@ -227,41 +350,7 @@ def _run_scan_with_loading(
 def _cmd_start(args: argparse.Namespace) -> None:
     """'reposcan start' — scan CWD interactively with the premium TUI."""
     print(theme.banner(__version__))
-    print(theme.render_welcome_text("."))
-
-    options = ScanOptions(interactive=True)
-
-    try:
-        result = _run_scan_with_loading(".", options, show_loading=True)
-    except ScanError as exc:
-        print(f"\n  {theme.error('✗ Error:')} {exc}\n", file=sys.stderr)
-        sys.exit(2)
-
-    # One-line plain-English status
-    if result.critical_count > 0 or result.advisory_count > 0:
-        print(f"  {theme.warning('Warning:')} RepoScan found suspicious files "
-              f"in this folder. Read the summary below.\n")
-    else:
-        print(f"  {theme.success('Good news:')} RepoScan did not find anything "
-              f"obviously dangerous in this folder.\n")
-
-    # Summary
-    print(format_summary(result))
-
-    # Detailed findings
-    findings_text = format_findings(result)
-    if findings_text:
-        print(findings_text)
-
-    # Interactive menu if there are actionable findings
-    if has_actionable_findings(result.all_findings):
-        if sys.stdout.isatty():
-            run_action_menu(result.all_findings, result.target_path)
-        else:
-            print(f"  {theme.dim('Non-interactive terminal — skipping action menu.')}")
-            print(f"  {theme.dim('Run with a TTY for interactive cleanup options.')}\n")
-
-    sys.exit(compute_exit_code(result))
+    _run_interactive_quickstart(".")
 
 
 def _cmd_scan(args: argparse.Namespace) -> None:
