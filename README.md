@@ -50,25 +50,29 @@ This pattern keeps repeating. AI-themed fake repos are now a top vector for infe
 ### Install
 
 ```bash
-git clone https://github.com/KanavvGupta/reposcan.git
-cd reposcan
-pip install -e .
+pip install git+https://github.com/KanavvGupta/reposcan.git
 ```
 
-### Run (one command)
+### Run
 
 ```bash
-reposcan start
+reposcan
 ```
 
-That's it. RepoScan scans the current folder, shows you a branded banner, a plain-English summary, and — if anything suspicious is found — an interactive menu to help you clean up.
+That's it. When you run `reposcan`, a welcome banner and interactive menu will appear. Choose **option 1** to scan the current folder — RepoScan will show a branded banner, a plain-English summary, and — if anything suspicious is found — an interactive cleanup menu.
 
-*(Planned: short GIF demo of `reposcan start` in action.)*
+*(Planned: short GIF demo of the startup menu in action.)*
 
 ## Quick Guide
 
-**Scan this folder**
-Use **`reposcan start`** to scan the folder you are currently in.
+**First time — just run:**
+```bash
+reposcan
+```
+You'll see the banner, a quick guide, and a menu. Press Enter to scan the current folder.
+
+**Scan this folder directly**
+Use **`reposcan start`** to skip the menu and scan the folder you are currently in.
 
 **Scan a specific folder**
 Use **`reposcan scan "<path>"`** to scan a folder you choose.
@@ -83,10 +87,10 @@ This is an advanced option and may take longer on large drives.
 
 ## What You See
 
-### Clean run
+### Startup menu (plain `reposcan`)
 
 ```
-  ██████████████████████████████████████████████████████████████████████████████
+  ████████████████████████████████████████████████████████████████████████████
 
   ██████╗ ███████╗██████╗  ██████╗ ███████╗ ██████╗ █████╗ ███╗   ██╗
   ██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔══██╗████╗  ██║
@@ -97,10 +101,23 @@ This is an advanced option and may take longer on large drives.
 
                       by  THE  [ ABOVE ]  MINDSET
 
-  ──────────────────────────────────────────────────────────────────────────
+  ────────────────────────────────────────────────────────────────────────
               v1.0.0  ·  Local-First Repo Safety Scanner
-  ██████████████████████████████████████████████████████████████████████████████
+  ████████████████████████████████████████████████████████████████████████████
 
+  ──────────────────────────────────────────────────────────────────
+  What would you like to do?
+
+    [1]  Safe scan of this folder  (recommended)
+    [2]  Scan a different folder
+    [3]  Just show the commands and exit
+
+  Enter choice (1/2/3, default 1):
+```
+
+### Clean run
+
+```
   Good news: RepoScan did not find anything obviously dangerous in this folder.
 
   Scan Summary
@@ -116,14 +133,6 @@ This is an advanced option and may take longer on large drives.
 ### Run with a critical detection
 
 ```
-  ██████████████████████████████████████████████████████████████████████████████
-
-  ██████╗ ███████╗██████╗  ██████╗ ███████╗ ██████╗ █████╗ ███╗   ██╗
-  ...
-                      by  THE  [ ABOVE ]  MINDSET
-  ──────────────────────────────────────────────────────────────────────────
-  ██████████████████████████████████████████████████████████████████████████████
-
   Warning: RepoScan found suspicious files in this folder. Read the summary below.
 
   Scan Summary
@@ -201,7 +210,8 @@ Prints a strong warning that the folder may still be dangerous. Exits with non-z
 ## CLI Reference
 
 ```
-reposcan start                  One-command quickstart: scan CWD interactively
+reposcan                        Show banner, guide and interactive startup menu
+reposcan start                  Skip menu: scan CWD interactively
 reposcan scan <path> [options]  Scan a directory
 reposcan version                Show version and branding
 reposcan signatures             Show loaded signature database details
